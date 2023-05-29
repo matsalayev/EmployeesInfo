@@ -20,5 +20,5 @@ public class Employee {
     private String name;
     private String lastName;
     @OneToMany
-    private List<Assignment> assignments;
+    private List<Task> tasks;
 }
