@@ -7,6 +7,7 @@ import uz.works.employeesinfo.repository.EmployeeRepository;
 import uz.works.employeesinfo.repository.TaskRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HomeService {
@@ -28,40 +29,67 @@ public class HomeService {
     }
 
     public Employee findById(Integer id){
-        return repository.findById(id).get();
+        Optional<Employee> optional = repository.findById(id);
+        return optional.orElse(null);
     }
 
     public List<Employee> findAll(){
         return repository.findAll();
     }
 
+    public List<Task> findAllTask(){
+        return taskRepository.findAll();
+    }
+
     public Employee update(Integer id, Employee employee) {
-        Employee newEmployee = repository.findById(id).get();
-        newEmployee.setName(employee.getName());
-        newEmployee.setLastName(employee.getLastName());
-        repository.save(newEmployee);
-        return newEmployee;
+        Optional<Employee> optional = repository.findById(id);
+        if(optional.isPresent()) {
+            Employee newEmployee = optional.get();
+            newEmployee.setName(employee.getName());
+            newEmployee.setLastName(employee.getLastName());
+            repository.save(newEmployee);
+            return newEmployee;
+        }
+        return null;
     }
 
     public List<Employee> delete(Integer id) {
-        Employee oldEmployee = repository.findById(id).get();
-        repository.delete(oldEmployee);
-        return repository.findAll();
+        Optional<Employee> optional = repository.findById(id);
+        if(optional.isPresent()) {
+            Employee oldEmployee = optional.get();
+            repository.delete(oldEmployee);
+            return repository.findAll();
+        }
+        return null;
     }
 
     public Employee createTask(Integer id, List<Task> task) {
-        Employee employee = repository.findById(id).get();
-        List<Task> tasks = employee.getTasks();
-        for(Task i : task){
-            tasks.add(i);
-            taskRepository.save(i);
+        Optional<Employee> optional = repository.findById(id);
+        if(optional.isPresent()) {
+            Employee employee = optional.get();
+            List<Task> tasks = employee.getTasks();
+            for (Task i : task) {
+                tasks.add(i);
+                taskRepository.save(i);
+            }
+            employee.setTasks(tasks);
+            repository.save(employee);
+            return employee;
         }
-        employee.setTasks(tasks);
-        repository.save(employee);
-        return employee;
+        return null;
     }
 
-    public Object updateTask(Integer id, Task task) {
+    public List<Task> updateTask(Integer id, Task task) {
+        Optional<Task> optional = taskRepository.findById(id);
+        if(optional.isPresent()){
+            Task item = optional.get();
+            item.setName(task.getName());
+            item.setDescription(task.getDescription());
+            item.setCompleted(task.getCompleted());
+            item.setDurationDay(task.getDurationDay());
+            taskRepository.save(item);
+            return taskRepository.findAll();
+        }
         return null;
     }
 }

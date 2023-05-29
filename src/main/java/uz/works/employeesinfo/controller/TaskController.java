@@ -19,13 +19,18 @@ public class TaskController {
         this.service = service;
     }
 
+    @GetMapping()
+    public ResponseEntity<List<Task>> findAll(){
+        return ResponseEntity.ok(service.findAllTask());
+    }
+
     @PostMapping("{id}")
     public ResponseEntity<Employee> createTask(@PathVariable Integer id, @RequestBody List<Task> task){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createTask(id, task));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> updateTask(@PathVariable Integer id, @RequestBody Task task){
+    public ResponseEntity<List<Task>> updateTask(@PathVariable Integer id, @RequestBody Task task){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.updateTask(id, task));
     }
 }
