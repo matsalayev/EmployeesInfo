@@ -49,13 +49,19 @@ public class HomeService {
         return repository.findAll();
     }
 
-    public Employee createTask(Integer id, Task task) {
+    public Employee createTask(Integer id, List<Task> task) {
         Employee employee = repository.findById(id).get();
         List<Task> tasks = employee.getTasks();
-        tasks.add(task);
-        taskRepository.save(task);
+        for(Task i : task){
+            tasks.add(i);
+            taskRepository.save(i);
+        }
         employee.setTasks(tasks);
         repository.save(employee);
         return employee;
+    }
+
+    public Object updateTask(Integer id, Task task) {
+        return null;
     }
 }

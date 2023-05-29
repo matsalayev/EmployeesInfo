@@ -7,6 +7,8 @@ import uz.works.employeesinfo.model.Employee;
 import uz.works.employeesinfo.model.Task;
 import uz.works.employeesinfo.service.HomeService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/task")
 public class TaskController {
@@ -17,8 +19,13 @@ public class TaskController {
         this.service = service;
     }
 
-    @PostMapping("/newTask/{id}")
-    public ResponseEntity<Employee> createTask(@PathVariable Integer id, @RequestBody Task task){
+    @PostMapping("{id}")
+    public ResponseEntity<Employee> createTask(@PathVariable Integer id, @RequestBody List<Task> task){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createTask(id, task));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateTask(@PathVariable Integer id, @RequestBody Task task){
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.updateTask(id, task));
     }
 }
