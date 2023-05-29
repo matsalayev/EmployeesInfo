@@ -2,17 +2,21 @@ package uz.works.employeesinfo.service;
 
 import org.springframework.stereotype.Service;
 import uz.works.employeesinfo.model.Employee;
+import uz.works.employeesinfo.model.Task;
 import uz.works.employeesinfo.repository.EmployeeRepository;
+import uz.works.employeesinfo.repository.TaskRepository;
 
 import java.util.List;
 
 @Service
-public class EmployeeService {
+public class HomeService {
 
     private final EmployeeRepository repository;
+    private final TaskRepository taskRepository;
 
-    public EmployeeService(EmployeeRepository repository){
+    public HomeService(EmployeeRepository repository, TaskRepository taskRepository){
         this.repository = repository;
+        this.taskRepository = taskRepository;
     }
 
     public Employee save(Employee employee){
@@ -43,5 +47,15 @@ public class EmployeeService {
         Employee oldEmployee = repository.findById(id).get();
         repository.delete(oldEmployee);
         return repository.findAll();
+    }
+
+    public Employee createTask(Integer id, Task task) {
+        Employee employee = repository.findById(id).get();
+        List<Task> tasks = employee.getTasks();
+        tasks.add(task);
+        taskRepository.save(task);
+        employee.setTasks(tasks);
+        repository.save(employee);
+        return employee;
     }
 }

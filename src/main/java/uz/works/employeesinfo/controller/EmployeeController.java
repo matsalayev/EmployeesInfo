@@ -4,15 +4,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.works.employeesinfo.model.Employee;
-import uz.works.employeesinfo.service.EmployeeService;
+import uz.works.employeesinfo.service.HomeService;
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/employee")
 public class EmployeeController {
-    private final EmployeeService service;
 
-    public EmployeeController(EmployeeService service){
+    private final HomeService service;
+
+    public EmployeeController(HomeService service){
         this.service = service;
     }
 
