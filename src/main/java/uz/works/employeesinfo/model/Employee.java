@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,4 +19,6 @@ public class Employee {
     private Integer id;
     private String name;
     private String lastName;
+    @OneToMany
+    private List<Assignment> assignments;
 }
