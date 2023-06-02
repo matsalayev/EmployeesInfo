@@ -1,16 +1,15 @@
 package uz.works.employeesinfo.controller;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import uz.works.employeesinfo.exceptions.MyResourceNotFoundException;
 import uz.works.employeesinfo.model.Employee;
 import uz.works.employeesinfo.service.HomeService;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/employee")
 public class EmployeeController {
 
@@ -27,13 +26,7 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public  ResponseEntity<Employee> findById(@PathVariable Integer id){
-        try{
             return ResponseEntity.ok(service.findById(id));
-        }
-        catch (MyResourceNotFoundException exc) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Foo Not Found", exc);
-        }
     }
 
     @GetMapping("/{name}")
