@@ -1,5 +1,6 @@
 package uz.works.employeesinfo.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,12 +27,12 @@ public class TaskController {
     }
 
     @PostMapping("{id}")
-    public ResponseEntity<Employee> createTask(@PathVariable Integer id, @RequestBody List<Task> task){
+    public ResponseEntity<Employee> createTask(@Valid @PathVariable Integer id, @RequestBody List<Task> task){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.createTask(id, task));
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<List<Task>> updateTask(@PathVariable Integer id, @RequestBody Task task){
+    public ResponseEntity<List<Task>> updateTask(@Valid @PathVariable Integer id, @RequestBody Task task){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.updateTask(id, task));
     }
 }

@@ -1,5 +1,6 @@
 package uz.works.employeesinfo.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,7 @@ import uz.works.employeesinfo.model.Employee;
 import uz.works.employeesinfo.service.HomeService;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/employee")
 public class EmployeeController {
 
@@ -25,27 +26,27 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public  ResponseEntity<Employee> findById(@PathVariable Integer id){
+    public  ResponseEntity<Employee> findById(@Valid @PathVariable Integer id){
             return ResponseEntity.ok(service.findById(id));
     }
 
     @GetMapping("/{name}")
-    public  ResponseEntity<Employee> findByName(@PathVariable String name){
+    public  ResponseEntity<Employee> findByName(@Valid @PathVariable String name){
         return ResponseEntity.ok(service.findByName(name));
     }
 
     @PostMapping()
-    public ResponseEntity<Employee> create(@RequestBody Employee employee){
+    public ResponseEntity<Employee> create(@Valid @RequestBody Employee employee){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(employee));
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<Employee> update(@PathVariable Integer id, @RequestBody Employee employee){
+    public  ResponseEntity<Employee> update(@Valid @PathVariable Integer id, @RequestBody Employee employee){
         return ResponseEntity.ok(service.update(id, employee));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<List<Employee>> delete(@PathVariable Integer id){
+    public ResponseEntity<List<Employee>> delete(@Valid @PathVariable Integer id){
         return ResponseEntity.ok(service.delete(id));
     }
 }
