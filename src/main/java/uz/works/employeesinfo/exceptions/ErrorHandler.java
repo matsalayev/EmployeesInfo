@@ -4,19 +4,18 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     @Nullable
-    public final ResponseEntity<Object> handleException(ConstraintViolationException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleException(ConstraintViolationException ex) {
         Map<String, Object> errors = new HashMap<>();
         ex.getConstraintViolations().forEach(error -> {
             errors.put(error.getPropertyPath().toString(), error.getMessage());
